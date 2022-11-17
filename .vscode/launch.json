@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug SST Start",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/sst",
+      "runtimeArgs": ["start", "--increase-timeout", "--stage=${input:stageID}", "--profile=${input:profileID}",  "--outputs-file=outputs.json"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "AWS_SDK_LOAD_CONFIG": "true",
+        "AWS_PROFILE": "${input:profileID}"
+      },
+      "serverReadyAction": {
+        "pattern": "SST Console: (.*)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "stageID",
+      "type": "promptString",
+      "description": "stage to run as. Usually the username",
+      "default": "local"
+    },
+    {
+      "id": "profileID",
+      "type": "promptString",
+      "description": "AWS account profile to use. Usualle devint01-profile",
+      "default": "alexdev-profile"
+    }
+  ]
+}
